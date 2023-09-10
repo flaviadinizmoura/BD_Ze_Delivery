@@ -39,3 +39,8 @@ seja possível recuperar as informações sobre as lojas que estão vendendo mai
 As seguintes informações precisam ser salvas: código do relatório, código da loja física,
 valor total de vendas, data início e data fim do relatório.
 </div>
+
+<div>
+<img align="center" alt="Header" src=" https://github.com/flaviadinizmoura/BD-ZE-DELIVERY/blob/main/LAYOUT%20BD.png?raw=true"/>
+</div>
+
