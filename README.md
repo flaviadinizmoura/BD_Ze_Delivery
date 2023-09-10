@@ -29,3 +29,4 @@ código da loja, nome da loja, endereço da loja e telefone da loja.
 seja possível recuperar as informações sobre as lojas que estão vendendo mais bebidas.
 As seguintes informações precisam ser salvas: código do relatório, código da loja física,
 valor total de vendas, data início e data fim do relatório.
+</div>
