@@ -41,6 +41,6 @@ valor total de vendas, data início e data fim do relatório.
 </div>
 
 <div>
-<img align="center" alt="Header" src=" https://<img src="https:// github.com/flaviadinizmoura/BD-ZE-DELIVERY/blob/main/LAYOUT-BD.png "/>
+<img align="center" alt="Header" src=" https://<img src="https://github.com/flaviadinizmoura/BD-ZE-DELIVERY/blob/main/LAYOUT%20BD.png)https://github.com/flaviadinizmoura/BD-ZE-DELIVERY/blob/main/LAYOUT%20BD.png"/>
 </div>
 
