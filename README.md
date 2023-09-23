@@ -47,4 +47,10 @@ valor total de vendas, data início e data fim do relatório.
 </div>
 
 -----
+-----
 
+<div>
+<img align="center" alt="Header" src="https://github.com/flaviadinizmoura/bancodedados/blob/main/projetologico.png"/>
+</div>
+
+-----
