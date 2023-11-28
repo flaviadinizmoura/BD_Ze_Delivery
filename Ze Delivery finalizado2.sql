@@ -480,3 +480,116 @@ SELECT C.ClienteId, C.Nome AS NomeCliente, C.CPF, P.PedidoId, P.Data_Pedido, P.S
 FROM Cliente C
 LEFT JOIN Pedido P ON C.ClienteId = P.ClienteId;
 
+--GROUP BY E ORDER BY
+-- 01 agrupar a quantidade de produtos vendidos por vendedor
+SELECT V.Nome AS NomeVendedor,
+COUNT(IP.Quant_Produto) AS TotalProdutosVendidos
+FROM Pedido P
+INNER JOIN Vendedor V ON P.VendedorId = V.VendedorId
+INNER JOIN Item_Pedido IP ON P.PedidoId = IP.PedidoId
+GROUP BY V.Nome;
+ORDER BY TotalProdutosVendidos DESC;
+
+-- 02 Agora agrupar os vendedores pelo total de valor de venda de todos os pedidos
+SELECT V.Nome AS NomeVendedor,
+SUM(IP.Quant_Produto * Vlr_Pedido) AS TotalVendas
+FROM Pedido P
+INNER JOIN Vendedor V ON P.VendedorId = V.VendedorId
+INNER JOIN Item_Pedido IP ON P.PedidoId = IP.PedidoId
+INNER JOIN Produto PR ON IP.ProdutoId = PR.ProdutoId
+GROUP BY V.Nome;
+ORDER BY TotalVendas DESC;
+
+-- 03 Agrupar as vendas por cliente e vendedor
+SELECT C.Nome AS NomeCliente, V.Nome AS NomeVendedor,
+SUM(IP.Quant_Produto * Vlr_Pedido) AS TotalVendas
+FROM Pedido P
+INNER JOIN Cliente C ON P.ClienteId = C.ClienteId
+INNER JOIN Vendedor V ON P.VendedorId = V.VendedorId
+INNER JOIN Item_Pedido IP ON P.PedidoId = IP.PedidoId
+INNER JOIN Produto PR ON IP.ProdutoId = PR.ProdutoId
+GROUP BY C.Nome, V.Nome;
+ORDER BY TotalVendas DESC;
+
+-- 04 Agrupar total de pedidos por cliente
+SELECT C.Nome AS NomeCliente,
+COUNT(P.PedidoId) AS TotalPedidos
+FROM Pedido P
+INNER JOIN Cliente C ON P.ClienteId = C.ClienteId
+GROUP BY C.Nome
+ORDER BY TotalPedidos DESC;
+
+-- 05 trazer todos os fornecedores agrupando total de produtos fornecidos e os que não tem produtos associados também.
+SELECT F.FornecedorId, F.Nome AS NomeFornecedor,
+COUNT(P.ProdutoId) AS TotalProdutos
+FROM Fornecedor F
+LEFT JOIN Produto P ON F.FornecedorId = P.FornecedorId
+GROUP BY F.FornecedorId, F.Nome
+ORDER BY TotalProdutos DESC;
+
+-- 06 Ordenar e agrupar os relatorios por ordem crescente de Total de Vendas
+SELECT RelatorioId,
+SUM(VLR_Total) AS TotalVendas,
+MAX(Data_Inicio) AS DataInicio,
+MIN(Data_Fim) AS DataFim
+FROM Relatorio
+GROUP BY RelatorioId, LojaId
+ORDER BY TotalVendas ASC;
+
+
+-- EXEMPLO DE UNION
+--01 Combinação de clientes e fornecedores
+SELECT ClienteId, Nome, 'Cliente' AS Tipo FROM Cliente
+UNION SELECT FornecedorId, Nome, 'Fornecedor' AS Tipo FROM Fornecedor;
+
+--02 Combinação de clientes, fornecedores e vendedores
+SELECT ClienteId, Nome, 'Cliente' AS Tipo FROM Cliente
+UNION SELECT FornecedorId, Nome, 'Fornecedor' AS Tipo FROM Fornecedor
+UNION SELECT VendedorId, Nome, 'Vendedor' AS Tipo FROM Vendedor;
+
+--03 Combinação de IDs de clientes, vendedores e lojas
+SELECT ClienteId AS ID, Nome, 'Cliente' AS Tipo FROM Cliente
+UNION SELECT VendedorId AS ID, Nome, 'Vendedor' AS Tipo FROM Vendedor
+UNION SELECT LojaId AS ID, Nome, 'Loja' AS Tipo FROM Loja;
+
+
+-- EXEMPLO DE AVG (AVERAGE) -- MÉDIA
+--01 Média do preço dos produtos
+SELECT AVG(VLR_Produto) AS MediaPrecoProduto FROM Produto;
+
+--02 Média do valor dos pedidos
+SELECT AVG(VLR_Pedido) AS MediaValorPedido FROM Pedido;
+
+--03 Média do tempo de espera dos pedidos, excluindo valores nulos
+SELECT AVG(Tempo_Espera) AS MediaTempoEspera FROM Pedido WHERE Tempo_Espera IS NOT NULL;
+
+
+-- EXEMPLOS MAX
+--01 Valor máximo do preço dos produtos
+SELECT MAX(VLR_Produto) AS MaxPrecoProduto FROM Produto;
+
+--02 Valores máximo do tempo de espera nos pedidos
+SELECT MAX(Tempo_Espera) AS MaxTempoEspera FROM Pedido;
+
+--03 Valores máximo do total de vendas por vendedor
+SELECT V.Nome AS NomeVendedor, MAX(IP.Quant_Produto * Vlr_Pedido) AS MaxVenda    
+FROM Pedido P
+INNER JOIN Vendedor V ON P.VendedorId = V.VendedorId
+INNER JOIN Item_Pedido IP ON P.PedidoId = IP.PedidoId
+GROUP BY V.Nome;
+
+
+-- EXEMPLOS MIN
+--01 Valor mínimo do preço dos produtos
+SELECT MIN(VLR_Produto) AS MinPrecoProduto FROM Produto;
+
+--02 Valores mínimo do tempo de espera nos pedidos
+SELECT MIN(Tempo_Espera) AS MinTempoEspera FROM Pedido;
+
+--03 Valores mínimo do total de vendas por vendedor
+SELECT V.Nome AS NomeVendedor,MIN(IP.Quant_Produto * Vlr_Pedido) AS MinVenda
+FROM Pedido P
+INNER JOIN Vendedor V ON P.VendedorId = V.VendedorId
+INNER JOIN Item_Pedido IP ON P.PedidoId = IP.PedidoId
+GROUP BY V.Nome;
+
